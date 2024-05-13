@@ -33,8 +33,20 @@ namespace API
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            var scope = app.Services.CreateScope();
+            var context = scope.ServiceProvider.GetService<StoreContext>();
+            var logger = scope.ServiceProvider.GetService<ILogger<Program>>();
+            try
+            {
+                context.Database.Migrate(); // auto create database if not have
+                DbInitializer.Inittialize(context);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "A problem occurred  during migration");
+            }
 
             app.Run();
         }
