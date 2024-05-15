@@ -12,7 +12,7 @@ namespace API.Controllers
         public ProductsController(StoreContext context)
         {
             _context = context;
-        }
+        } 
 
         [HttpGet]
         public ActionResult<List<Product>> GetProducts()
